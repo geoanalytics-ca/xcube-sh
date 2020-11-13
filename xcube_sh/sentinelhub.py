@@ -153,7 +153,7 @@ class SentinelHub:
                      collection_name: str,
                      bbox: Tuple[float, float, float, float] = None,
                      # TODO alicja: add Process API CRS name
-                     # crs: str = None,
+                     # bbox_crs: str = None,
                      time_range: Tuple[str, str] = None) -> List[Dict[str, Any]]:
         """
         Get geometric intersections of dataset given by *collection_name*
@@ -176,7 +176,7 @@ class SentinelHub:
             request.update(bbox=bbox)
             # TODO alicja: Find out how the Process API CRS names relate to Catalog CRS names
             #    'bbox-crs' uses another convention, see
-            # query_params.update({'bbox-crs': ''})
+            # request.update({'bbox-crs': bbox_crs})
         if time_range:
             t1, t2 = time_range
             request.update(datetime=f'{t1}/{t2}')

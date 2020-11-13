@@ -73,6 +73,21 @@ class SentinelHubCatalogSearchTest(unittest.TestCase):
             self.assertIn('datetime', properties)
 
 
+@unittest.skipUnless(HAS_SH_CREDENTIALS, REQUIRE_SH_CREDENTIALS)
+class SentinelHubCatalogBboxCrsTest(unittest.TestCase):
+
+    def test_get_features_with_crs(self):
+        features = SentinelHub().get_features(collection_name='sentinel-1-grd',
+                                              bbox=(483313.4801,5969927.5997,494966.4990,5978896.6188),
+                                              # bbox_crs='http://www.opengis.net/def/crs/EPSG/0/32632',
+                                              time_range=('2019-10-10T00:00:00Z', '2019-12-11T00:00:00Z'))
+        # print(json.dumps(features, indent=2))
+        self.assertEqual(8, len(features))
+        for feature in features:
+            self.assertIn('properties', feature)
+            properties = feature['properties']
+            self.assertIn('datetime', properties)
+
 class SentinelHubCatalogFeaturesTest(unittest.TestCase):
     def test_features_to_time_ranges(self):
         properties = [{'datetime': '2019-09-17T10:35:42Z'}, {'datetime': '2019-09-17T10:35:46Z'},
